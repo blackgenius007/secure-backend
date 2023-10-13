@@ -1,0 +1,60 @@
+{
+  "name": "inmate-database-app",
+  "version": "1.0.0",
+  "description": "Inmate database Management application",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "nodemon --exec babel-node server.js",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2virtual/Inmate-database-app.git"
+  },
+  "author": "Olami",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/2virtual/Inmate-database-app/issues"
+  },
+  "homepage": "https://github.com/2virtual/Inmate-database-app#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "chart.js": "^4.4.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "cloudinary": "^1.37.0",
+    "clsx": "^1.2.1",
+    "colors": "^1.4.0",
+    "concurrently": "^8.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "glitched-writer": "^2.0.29",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^9.0.0",
+    "mapbox-gl": "^2.15.0",
+    "moment": "^2.29.4",
+    "mongo": "^0.1.0",
+    "mongoose": "^7.1.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "multer-s3": "^3.0.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "node-cron": "^3.0.2",
+    "nodemailer": "^6.9.3",
+    "nodemon": "^2.0.22",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "react-responsive-carousel": "^3.2.23",
+    "referral-codes": "^2.0.3",
+    "shortid": "^2.2.16",
+    "slugify": "^1.6.6",
+    "validator": "^13.9.0"
+  }
+}
