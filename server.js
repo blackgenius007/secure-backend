@@ -1,4 +1,4 @@
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config({ path: './config/config.env' });
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser')
 const express = require('express');
@@ -11,7 +11,8 @@ const colors = require('colors');
 
 
 // Load env vars    
-dotenv.config({path: `./config/config.env`})    
+// dotenv.config({path: `./config/config.env`})   
+ 
 
 // connect to database
 connectDB();
