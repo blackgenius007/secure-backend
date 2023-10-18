@@ -20,11 +20,11 @@ connectDB();
 
 const app = express();
 
-// app.use(cors(
-//   {
-//     origin:['https://frontend-secure.onrender.com']
-//   }
-// ));
+app.use(cors(
+  {
+    origin:['https://frontend-secure.onrender.com']
+  }
+));
 
 // cookie parser
 app.use(cookieParser())
