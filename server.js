@@ -1,14 +1,19 @@
-const dotenv = require('dotenv').config({ path: './config/config.env' });
+require('dotenv').config()
+require('express-async-errors') 
 const morgan = require('morgan');
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
-const express = require('express');
+const corsOptions = require('./config/corsOptions')
 const connectDB = require('./config/db')
+const express = require('express'); 
+const mongoose = require('mongoose')
+const app = express();
 const path = require('path');
+const { logger, logEvents } = require('./middleware/logger')  
 const fs =require('fs');
-const colors = require('colors');
-
-
+const colors = require('colors');  
+PORT = process.env.PORT || 5000 
+console.log(process.env.NODE_ENV)
 
 
 // Load env vars    
@@ -18,26 +23,25 @@ const colors = require('colors');
 // connect to database
 connectDB();
 
-const app = express();
-
-app.use(cors(
-  {
-    origin:['https://frontend-secure.onrender.com']
-  }
-));
-
-// cookie parser
-app.use(cookieParser())
-
-// Body parser
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }))
-
-
 //Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+
+app.use(cors(corsOptions))
+
+
+// Body parser
+app.use(express.json());
+
+// cookie parser
+app.use(cookieParser());
+
+// Serve frontend
+app.use('/', express.static(path.join(__dirname, 'public')))
+
+
 
 
 
@@ -55,23 +59,28 @@ app.use('/api/v1/inmate', inmate);
 app.use('/api/v1/images', images);
 app.use(errorHandler);
 
-// Serve frontend
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'build')));
+app.all('*', (req, res) => {
+  res.status(404)
+  if (req.accepts('html')) {
+      res.sendFile(path.join(__dirname, 'views', '404.html'))
+  } else if (req.accepts('json')) {
+      res.json({ message: '404 Not Found' })
+  } else {
+      res.type('txt').send('404 Not Found')
+  }
+})
+ 
+app.use(errorHandler)
 
-  app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-  });
-} else {
-  app.get('/', (req, res) => res.send('Please set to production'));
-}
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB'.cyan.underline.bold)
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}` .yellow.bold))
+})
+
+mongoose.connection.on('error', err => {
+  console.log(err)
+  logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log')
+})
 
 
-// app.use(errorHandler)
-
-
-PORT = process.env.PORT || 5000
-const server = app.listen(PORT, console.log(`server is running in ${process.env.NODE_ENV} mode on port ${PORT}`
-.yellow.bold
-));
  

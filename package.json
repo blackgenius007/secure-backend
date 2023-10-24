@@ -4,10 +4,8 @@
   "description": "Inmate database Management application",
   "main": "server.js",
   "scripts": {
-    "build": "npm i",
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server",
+    "dev": "nodemon server"
   },
   "repository": {
     "type": "git",
@@ -32,6 +30,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
     "express-async-handler": "^1.2.0",
     "glitched-writer": "^2.0.29",
     "is-empty": "^1.2.0",
