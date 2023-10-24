@@ -4,6 +4,7 @@
   "description": "Inmate database Management application",
   "main": "server.js",
   "scripts": {
+    "build": "npm i",
     "start": "node server",
     "dev": "nodemon server"
   },
